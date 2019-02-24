@@ -18,9 +18,9 @@ Linux之父Linux用C语言写了Git分布式版本控制系统。
 
 ## 创建版本库
 
-### 1. 创建一个项目目录（mkdir Git）
-### 2. 进入到这个目录（cd Git）
-### 3. 初始化版本库（git init）
+1. 创建一个项目目录（mkdir Git）
+2. 进入到这个目录（cd Git）
+3. 初始化版本库（git init）
 
 在当前目录下会有.git的目录，它是git进行跟踪和管理版本库，禁止删改此文件(如果没看到可能是您的电脑不显示隐藏文件,在命令行工具运行 ls -ah可查看)。
 
@@ -32,9 +32,9 @@ $ git init
 // Initialized empty Git repository in /Users/zhengdahua/Documents/Project/Private/Git/.git/ 初始化空的版本库
 ```
 
-### 4. 编写一个README.md文件
-### 5. 将README.md添加到暂存区（git add README.md)
-### 6. 确认提交文件到仓库（git commit -m 'add example file'）
+4. 编写一个README.md文件
+5. 将README.md添加到暂存区（git add README.md)
+6. 确认提交文件到仓库（git commit -m 'add example file'）
 
 我们当前的项目目录是工作区，git初始化之后会生成一个.git文件，即我们所说的版本库（respository），.git中有一个index文件就是暂存区（stage），git还为我们自动生成了一个分支master以及指向该分支的指针head。想了解更多，请移步[git工作区、暂存区、版本库之间的关系](https://www.cnblogs.com/lianghe01/p/5846525.html)。
 
@@ -43,3 +43,33 @@ $ type nul>README.md
 $ git add README.md
 $ git commit -m 'add example file'
 ```
+
+## 版本回退
+
++ 查看版本库的状态（git status）
+
+```
+➜  Git git:(master) git status 
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   docs/document.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+➜  Git git:(master) ✗ 
+```
+
+上面的命令输出告诉我们，document.md被修改过了，但还没有提交。
+
++ 比较两次修改的差异（git diff）
+
+```
+-### 4. 编写一个README.md文件
+-### 5. 将README.md添加到暂存区（git add README.md)
+-### 6. 确认提交文件到仓库（git commit -m 'add example file'）
+++ 4. 编写一个README.md文件
+++ 5. 将README.md添加到暂存区（git add README.md)
+```
+“-”后面跟的是删除的内容，“+”后面跟的是新增的内容
