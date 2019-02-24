@@ -46,7 +46,7 @@ $ git commit -m 'add example file'
 
 ## 版本回退
 
-+ 查看版本库的状态（git status）
++ 查看版本库的状态（git status）。下面的命令输出告诉我们，document.md被修改过了，但还没有提交。
 
 ```
 ➜  Git git:(master) git status 
@@ -61,9 +61,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 ➜  Git git:(master) ✗ 
 ```
 
-上面的命令输出告诉我们，document.md被修改过了，但还没有提交。
-
-+ 比较两次修改的差异（git diff）
++ 比较两次修改的差异（git diff）。“-”后面跟的是删除的内容，“+”后面跟的是新增的内容
 
 ```
 -### 4. 编写一个README.md文件
@@ -72,4 +70,37 @@ no changes added to commit (use "git add" and/or "git commit -a")
 ++ 4. 编写一个README.md文件
 ++ 5. 将README.md添加到暂存区（git add README.md)
 ```
-“-”后面跟的是删除的内容，“+”后面跟的是新增的内容
+
++ 查看提交日志（git log）。显示从最近到最远的提交日志
+
+```
+commit 241f77158c2d59b0b10e482b74a24150a0bebeb4 (HEAD -> master)
+Author: kevin <kenvin.zheng@drigle.com>
+Date:   Sun Feb 24 22:24:51 2019 +0800
+
+    update document.md
+
+commit f953ccc298a430939e5e64eeedd49cc2db5a3fdb
+Author: kevin <kenvin.zheng@drigle.com>
+Date:   Sun Feb 24 21:43:08 2019 +0800
+```
+
++ 回退版本（git reset --hard HEAD^）。用HEAD表示当前版本，则HEAD^就是上个版本，HEAD^表示上上个版本，HEAD～100表示上一百个版本，“241f77158c2d59b0b10e482b74a24150a0bebeb4”指的是版本的id，我们要回退到指定版本是只需要id的前几位就行，但最好5位以上。回退指定版本（git reset --hard f953c）。
+
++ 查看所有分支的版本操作记录（git reflog）。当你用$ git reset --hard HEAD^回退到以前版本时，再想恢复到append GPL，就必须找到append GPL的commit id，通过git reflog就可以append GPL的commit id了。
+
+```
+241f771 (HEAD -> master) HEAD@{0}: reset: moving to 241f771
+f953ccc HEAD@{1}: reset: moving to HEAD^
+241f771 (HEAD -> master) HEAD@{2}: commit: update document.md
+f953ccc HEAD@{3}: commit (amend): add first file
+bd07a32 HEAD@{4}: commit (amend): add first file
+98f7467 HEAD@{5}: commit (initial): add first file
+```
+
+## 修改管理
+Git 并不跟踪与文件相关的文件名和目录名，而是跟踪的是文件的内容，查看[Git 追踪内容详解](https://blog.csdn.net/sean_8180/article/details/82717204)。因此文件的每一次修改，都需要git add添加到暂存区，然后在commit到版本库。
+
++ 修改撤销（git checkout -- README.md）。这里有两种情况：一种是README.md自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。总之，就是让这个文件回到最近一次git commit或git add时的状态。
+
++ 删除文件。工作区直接删除文件，提交到版本库。
